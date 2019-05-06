@@ -1,0 +1,49 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="persoon">
+            <h2><span>Persoon</span> {{persoon.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Naam</span></dt>
+                <dd>
+                    <span>{{persoon.naam}}</span>
+                </dd>
+                <dt><span>Voornaam</span></dt>
+                <dd>
+                    <span>{{persoon.voornaam}}</span>
+                </dd>
+                <dt><span>Wenslijst</span></dt>
+                <dd>
+                    <div *ngIf="persoon.wenslijstId">
+                        <a [routerLink]="['/boek-my-suffix', persoon.wenslijstId, 'view']">{{persoon.wenslijstId}}</a>
+                    </div>
+                </dd>
+                <dt><span>Boekenlijst</span></dt>
+                <dd>
+                    <div *ngIf="persoon.boekenlijstId">
+                        <a [routerLink]="['/boek-my-suffix', persoon.boekenlijstId, 'view']">{{persoon.boekenlijstId}}</a>
+                    </div>
+                </dd>
+                <dt><span>Gelezen</span></dt>
+                <dd>
+                    <div *ngIf="persoon.gelezenId">
+                        <a [routerLink]="['/boek-my-suffix', persoon.gelezenId, 'view']">{{persoon.gelezenId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/persoon-my-suffix', persoon.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

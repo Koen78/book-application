@@ -1,0 +1,47 @@
+{
+    "name": "Persoon",
+    "fields": [
+        {
+            "fieldName": "naam",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "voornaam",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "boek",
+            "otherEntityRelationshipName": "persoon",
+            "relationshipName": "wenslijst",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "boek",
+            "otherEntityRelationshipName": "persoon",
+            "relationshipName": "boekenlijst",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "boek",
+            "otherEntityRelationshipName": "persoon",
+            "relationshipName": "gelezen",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20190506185023",
+    "javadoc": "Persoon entity.\n@author Koen.",
+    "entityTableName": "persoon",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*",
+    "angularJSSuffix": "mySuffix"
+}

@@ -20,7 +20,7 @@
 relationship ManyToOne {
     Persoon{wenslijst} to Boek,
     Persoon{boekenlijst} to Boek,
-    Person{gelezen} to Boek
+    Persoon{gelezen} to Boek
 }
 // Set pagination options
 paginate Boek with pagination

@@ -33,14 +33,15 @@
             "otherEntityField": "id"
         }
     ],
-    "changelogDate": "20190506185023",
-    "javadoc": "Persoon entity.\n@author Koen.",
+    "changelogDate": "20191112104206",
+    "javadoc": "Persoon entity.\\n@author Koen.",
     "entityTableName": "persoon",
     "dto": "mapstruct",
     "pagination": "no",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,
+    "readOnly": false,
     "clientRootFolder": "",
     "applications": "*",
     "angularJSSuffix": "mySuffix"

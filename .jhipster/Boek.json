@@ -19,14 +19,15 @@
         }
     ],
     "relationships": [],
-    "changelogDate": "20190506185024",
-    "javadoc": "Boek entity.\n@author Koen.",
+    "changelogDate": "20191112104207",
+    "javadoc": "Boek entity.\\n@author Koen.",
     "entityTableName": "boek",
     "dto": "mapstruct",
     "pagination": "pagination",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,
+    "readOnly": false,
     "clientRootFolder": "",
     "applications": "*",
     "angularJSSuffix": "mySuffix"

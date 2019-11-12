@@ -4,10 +4,11 @@
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-persoon-my-suffix" [routerLink]="['/persoon-my-suffix/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span class="hidden-sm-down" >
-            Create new Persoon
+            Create a new Persoon
             </span>
         </button>
     </h2>
+    <jhi-alert-error></jhi-alert-error>
     <jhi-alert></jhi-alert>
     <div class="row">
         <div class="col-sm-12">
@@ -25,17 +26,20 @@
         </div>
     </div>
     <br/>
-    <div class="table-responsive" *ngIf="persoons">
-        <table class="table table-striped">
+    <div class="alert alert-warning" *ngIf="persoons?.length === 0">
+        <span>No persoons found</span>
+    </div>
+    <div class="table-responsive" *ngIf="persoons?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr>
-            <th><span>ID</span></th>
-            <th><span>Naam</span></th>
-            <th><span>Voornaam</span></th>
-            <th><span>Wenslijst</span></th>
-            <th><span>Boekenlijst</span></th>
-            <th><span>Gelezen</span></th>
-            <th></th>
+            <th scope="col" ><span>ID</span></th>
+            <th scope="col" ><span>Naam</span></th>
+            <th scope="col" ><span>Voornaam</span></th>
+            <th scope="col" ><span>Wenslijst</span></th>
+            <th scope="col" ><span>Boekenlijst</span></th>
+            <th scope="col" ><span>Gelezen</span></th>
+            <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
@@ -45,17 +49,17 @@
                 <td>{{persoon.voornaam}}</td>
                 <td>
                     <div *ngIf="persoon.wenslijstId">
-                        <a [routerLink]="['../boek-my-suffix', persoon.wenslijstId , 'view' ]" >{{persoon.wenslijstId}}</a>
+                        <a [routerLink]="['/boek-my-suffix', persoon.wenslijstId , 'view' ]" >{{persoon.wenslijstId}}</a>
                     </div>
                 </td>
                 <td>
                     <div *ngIf="persoon.boekenlijstId">
-                        <a [routerLink]="['../boek-my-suffix', persoon.boekenlijstId , 'view' ]" >{{persoon.boekenlijstId}}</a>
+                        <a [routerLink]="['/boek-my-suffix', persoon.boekenlijstId , 'view' ]" >{{persoon.boekenlijstId}}</a>
                     </div>
                 </td>
                 <td>
                     <div *ngIf="persoon.gelezenId">
-                        <a [routerLink]="['../boek-my-suffix', persoon.gelezenId , 'view' ]" >{{persoon.gelezenId}}</a>
+                        <a [routerLink]="['/boek-my-suffix', persoon.gelezenId , 'view' ]" >{{persoon.gelezenId}}</a>
                     </div>
                 </td>
                 <td class="text-right">
@@ -73,7 +77,7 @@
                             <span class="d-none d-md-inline">Edit</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/', 'persoon-my-suffix', { outlets: { popup: persoon.id + '/delete'} }]"
+                                [routerLink]="['/persoon-my-suffix', { outlets: { popup: persoon.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -11,7 +13,6 @@ import { BoekMySuffixService } from './boek-my-suffix.service';
   templateUrl: './boek-my-suffix-update.component.html'
 })
 export class BoekMySuffixUpdateComponent implements OnInit {
-  boek: IBoekMySuffix;
   isSaving: boolean;
 
   editForm = this.fb.group({
@@ -28,7 +29,6 @@ export class BoekMySuffixUpdateComponent implements OnInit {
     this.isSaving = false;
     this.activatedRoute.data.subscribe(({ boek }) => {
       this.updateForm(boek);
-      this.boek = boek;
     });
   }
 
@@ -57,7 +57,7 @@ export class BoekMySuffixUpdateComponent implements OnInit {
   }
 
   private createFromForm(): IBoekMySuffix {
-    const entity = {
+    return {
       ...new BoekMySuffix(),
       id: this.editForm.get(['id']).value,
       titel: this.editForm.get(['titel']).value,
@@ -65,11 +65,10 @@ export class BoekMySuffixUpdateComponent implements OnInit {
       paginas: this.editForm.get(['paginas']).value,
       korteInhoud: this.editForm.get(['korteInhoud']).value
     };
-    return entity;
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IBoekMySuffix>>) {
-    result.subscribe((res: HttpResponse<IBoekMySuffix>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+    result.subscribe(() => this.onSaveSuccess(), () => this.onSaveError());
   }
 
   protected onSaveSuccess() {

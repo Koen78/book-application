@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
-import { UserRouteAccessService } from 'app/core';
+import { Resolve, ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
 import { Observable, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { PersoonMySuffix } from 'app/shared/model/persoon-my-suffix.model';
 import { PersoonMySuffixService } from './persoon-my-suffix.service';
 import { PersoonMySuffixComponent } from './persoon-my-suffix.component';
@@ -16,13 +16,10 @@ import { IPersoonMySuffix } from 'app/shared/model/persoon-my-suffix.model';
 export class PersoonMySuffixResolve implements Resolve<IPersoonMySuffix> {
   constructor(private service: PersoonMySuffixService) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IPersoonMySuffix> {
-    const id = route.params['id'] ? route.params['id'] : null;
+  resolve(route: ActivatedRouteSnapshot): Observable<IPersoonMySuffix> {
+    const id = route.params['id'];
     if (id) {
-      return this.service.find(id).pipe(
-        filter((response: HttpResponse<PersoonMySuffix>) => response.ok),
-        map((persoon: HttpResponse<PersoonMySuffix>) => persoon.body)
-      );
+      return this.service.find(id).pipe(map((persoon: HttpResponse<PersoonMySuffix>) => persoon.body));
     }
     return of(new PersoonMySuffix());
   }

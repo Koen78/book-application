@@ -37,7 +37,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Integration tests for the {@Link BoekResource} REST controller.
+ * Integration tests for the {@link BoekResource} REST controller.
  */
 @SpringBootTest(classes = BookApplicationApp.class)
 public class BoekResourceIT {
@@ -116,6 +116,20 @@ public class BoekResourceIT {
             .korteInhoud(DEFAULT_KORTE_INHOUD);
         return boek;
     }
+    /**
+     * Create an updated entity for this test.
+     *
+     * This is a static method, as tests for other entities might also need it,
+     * if they test an entity which requires the current entity.
+     */
+    public static Boek createUpdatedEntity(EntityManager em) {
+        Boek boek = new Boek()
+            .titel(UPDATED_TITEL)
+            .auteur(UPDATED_AUTEUR)
+            .paginas(UPDATED_PAGINAS)
+            .korteInhoud(UPDATED_KORTE_INHOUD);
+        return boek;
+    }
 
     @BeforeEach
     public void initTest() {
@@ -182,10 +196,10 @@ public class BoekResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(boek.getId().intValue())))
-            .andExpect(jsonPath("$.[*].titel").value(hasItem(DEFAULT_TITEL.toString())))
-            .andExpect(jsonPath("$.[*].auteur").value(hasItem(DEFAULT_AUTEUR.toString())))
+            .andExpect(jsonPath("$.[*].titel").value(hasItem(DEFAULT_TITEL)))
+            .andExpect(jsonPath("$.[*].auteur").value(hasItem(DEFAULT_AUTEUR)))
             .andExpect(jsonPath("$.[*].paginas").value(hasItem(DEFAULT_PAGINAS)))
-            .andExpect(jsonPath("$.[*].korteInhoud").value(hasItem(DEFAULT_KORTE_INHOUD.toString())));
+            .andExpect(jsonPath("$.[*].korteInhoud").value(hasItem(DEFAULT_KORTE_INHOUD)));
     }
     
     @Test
@@ -199,10 +213,10 @@ public class BoekResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(boek.getId().intValue()))
-            .andExpect(jsonPath("$.titel").value(DEFAULT_TITEL.toString()))
-            .andExpect(jsonPath("$.auteur").value(DEFAULT_AUTEUR.toString()))
+            .andExpect(jsonPath("$.titel").value(DEFAULT_TITEL))
+            .andExpect(jsonPath("$.auteur").value(DEFAULT_AUTEUR))
             .andExpect(jsonPath("$.paginas").value(DEFAULT_PAGINAS))
-            .andExpect(jsonPath("$.korteInhoud").value(DEFAULT_KORTE_INHOUD.toString()));
+            .andExpect(jsonPath("$.korteInhoud").value(DEFAULT_KORTE_INHOUD));
     }
 
     @Test
@@ -285,7 +299,7 @@ public class BoekResourceIT {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isNoContent());
 
-        // Validate the database is empty
+        // Validate the database contains one less item
         List<Boek> boekList = boekRepository.findAll();
         assertThat(boekList).hasSize(databaseSizeBeforeDelete - 1);
 
@@ -309,43 +323,5 @@ public class BoekResourceIT {
             .andExpect(jsonPath("$.[*].auteur").value(hasItem(DEFAULT_AUTEUR)))
             .andExpect(jsonPath("$.[*].paginas").value(hasItem(DEFAULT_PAGINAS)))
             .andExpect(jsonPath("$.[*].korteInhoud").value(hasItem(DEFAULT_KORTE_INHOUD)));
-    }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(Boek.class);
-        Boek boek1 = new Boek();
-        boek1.setId(1L);
-        Boek boek2 = new Boek();
-        boek2.setId(boek1.getId());
-        assertThat(boek1).isEqualTo(boek2);
-        boek2.setId(2L);
-        assertThat(boek1).isNotEqualTo(boek2);
-        boek1.setId(null);
-        assertThat(boek1).isNotEqualTo(boek2);
-    }
-
-    @Test
-    @Transactional
-    public void dtoEqualsVerifier() throws Exception {
-        TestUtil.equalsVerifier(BoekDTO.class);
-        BoekDTO boekDTO1 = new BoekDTO();
-        boekDTO1.setId(1L);
-        BoekDTO boekDTO2 = new BoekDTO();
-        assertThat(boekDTO1).isNotEqualTo(boekDTO2);
-        boekDTO2.setId(boekDTO1.getId());
-        assertThat(boekDTO1).isEqualTo(boekDTO2);
-        boekDTO2.setId(2L);
-        assertThat(boekDTO1).isNotEqualTo(boekDTO2);
-        boekDTO1.setId(null);
-        assertThat(boekDTO1).isNotEqualTo(boekDTO2);
-    }
-
-    @Test
-    @Transactional
-    public void testEntityFromId() {
-        assertThat(boekMapper.fromId(42L).getId()).isEqualTo(42);
-        assertThat(boekMapper.fromId(null)).isNull();
     }
 }

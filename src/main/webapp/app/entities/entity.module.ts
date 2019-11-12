@@ -6,11 +6,11 @@ import { RouterModule } from '@angular/router';
     RouterModule.forChild([
       {
         path: 'persoon-my-suffix',
-        loadChildren: './persoon-my-suffix/persoon-my-suffix.module#BookApplicationPersoonMySuffixModule'
+        loadChildren: () => import('./persoon-my-suffix/persoon-my-suffix.module').then(m => m.BookApplicationPersoonMySuffixModule)
       },
       {
         path: 'boek-my-suffix',
-        loadChildren: './boek-my-suffix/boek-my-suffix.module#BookApplicationBoekMySuffixModule'
+        loadChildren: () => import('./boek-my-suffix/boek-my-suffix.module').then(m => m.BookApplicationBoekMySuffixModule)
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])

@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
 import { IPersoonMySuffix, PersoonMySuffix } from 'app/shared/model/persoon-my-suffix.model';
 import { PersoonMySuffixService } from './persoon-my-suffix.service';
 import { IBoekMySuffix } from 'app/shared/model/boek-my-suffix.model';
-import { BoekMySuffixService } from 'app/entities/boek-my-suffix';
+import { BoekMySuffixService } from 'app/entities/boek-my-suffix/boek-my-suffix.service';
 
 @Component({
   selector: 'jhi-persoon-my-suffix-update',
   templateUrl: './persoon-my-suffix-update.component.html'
 })
 export class PersoonMySuffixUpdateComponent implements OnInit {
-  persoon: IPersoonMySuffix;
   isSaving: boolean;
 
   boeks: IBoekMySuffix[];
@@ -41,15 +41,10 @@ export class PersoonMySuffixUpdateComponent implements OnInit {
     this.isSaving = false;
     this.activatedRoute.data.subscribe(({ persoon }) => {
       this.updateForm(persoon);
-      this.persoon = persoon;
     });
     this.boekService
       .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IBoekMySuffix[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IBoekMySuffix[]>) => response.body)
-      )
-      .subscribe((res: IBoekMySuffix[]) => (this.boeks = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe((res: HttpResponse<IBoekMySuffix[]>) => (this.boeks = res.body), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(persoon: IPersoonMySuffix) {
@@ -78,7 +73,7 @@ export class PersoonMySuffixUpdateComponent implements OnInit {
   }
 
   private createFromForm(): IPersoonMySuffix {
-    const entity = {
+    return {
       ...new PersoonMySuffix(),
       id: this.editForm.get(['id']).value,
       naam: this.editForm.get(['naam']).value,
@@ -87,11 +82,10 @@ export class PersoonMySuffixUpdateComponent implements OnInit {
       boekenlijstId: this.editForm.get(['boekenlijstId']).value,
       gelezenId: this.editForm.get(['gelezenId']).value
     };
-    return entity;
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IPersoonMySuffix>>) {
-    result.subscribe((res: HttpResponse<IPersoonMySuffix>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+    result.subscribe(() => this.onSaveSuccess(), () => this.onSaveError());
   }
 
   protected onSaveSuccess() {

@@ -1,14 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 
 import { IBoekMySuffix } from 'app/shared/model/boek-my-suffix.model';
-import { AccountService } from 'app/core';
 
-import { ITEMS_PER_PAGE } from 'app/shared';
+import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { BoekMySuffixService } from './boek-my-suffix.service';
 
 @Component({
@@ -16,7 +14,6 @@ import { BoekMySuffixService } from './boek-my-suffix.service';
   templateUrl: './boek-my-suffix.component.html'
 })
 export class BoekMySuffixComponent implements OnInit, OnDestroy {
-  currentAccount: any;
   boeks: IBoekMySuffix[];
   error: any;
   success: any;
@@ -34,8 +31,6 @@ export class BoekMySuffixComponent implements OnInit, OnDestroy {
   constructor(
     protected boekService: BoekMySuffixService,
     protected parseLinks: JhiParseLinks,
-    protected jhiAlertService: JhiAlertService,
-    protected accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected eventManager: JhiEventManager
@@ -48,7 +43,9 @@ export class BoekMySuffixComponent implements OnInit, OnDestroy {
       this.predicate = data.pagingParams.predicate;
     });
     this.currentSearch =
-      this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
+      this.activatedRoute.snapshot && this.activatedRoute.snapshot.queryParams['search']
+        ? this.activatedRoute.snapshot.queryParams['search']
+        : '';
   }
 
   loadAll() {
@@ -60,10 +57,7 @@ export class BoekMySuffixComponent implements OnInit, OnDestroy {
           size: this.itemsPerPage,
           sort: this.sort()
         })
-        .subscribe(
-          (res: HttpResponse<IBoekMySuffix[]>) => this.paginateBoeks(res.body, res.headers),
-          (res: HttpErrorResponse) => this.onError(res.message)
-        );
+        .subscribe((res: HttpResponse<IBoekMySuffix[]>) => this.paginateBoeks(res.body, res.headers));
       return;
     }
     this.boekService
@@ -72,10 +66,7 @@ export class BoekMySuffixComponent implements OnInit, OnDestroy {
         size: this.itemsPerPage,
         sort: this.sort()
       })
-      .subscribe(
-        (res: HttpResponse<IBoekMySuffix[]>) => this.paginateBoeks(res.body, res.headers),
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
+      .subscribe((res: HttpResponse<IBoekMySuffix[]>) => this.paginateBoeks(res.body, res.headers));
   }
 
   loadPage(page: number) {
@@ -129,9 +120,6 @@ export class BoekMySuffixComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadAll();
-    this.accountService.identity().then(account => {
-      this.currentAccount = account;
-    });
     this.registerChangeInBoeks();
   }
 
@@ -144,7 +132,7 @@ export class BoekMySuffixComponent implements OnInit, OnDestroy {
   }
 
   registerChangeInBoeks() {
-    this.eventSubscriber = this.eventManager.subscribe('boekListModification', response => this.loadAll());
+    this.eventSubscriber = this.eventManager.subscribe('boekListModification', () => this.loadAll());
   }
 
   sort() {
@@ -159,9 +147,5 @@ export class BoekMySuffixComponent implements OnInit, OnDestroy {
     this.links = this.parseLinks.parse(headers.get('link'));
     this.totalItems = parseInt(headers.get('X-Total-Count'), 10);
     this.boeks = data;
-  }
-
-  protected onError(errorMessage: string) {
-    this.jhiAlertService.error(errorMessage, null, null);
   }
 }

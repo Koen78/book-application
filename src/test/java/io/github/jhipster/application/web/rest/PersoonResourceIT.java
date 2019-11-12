@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Integration tests for the {@Link PersoonResource} REST controller.
+ * Integration tests for the {@link PersoonResource} REST controller.
  */
 @SpringBootTest(classes = BookApplicationApp.class)
 public class PersoonResourceIT {
@@ -106,6 +106,18 @@ public class PersoonResourceIT {
             .voornaam(DEFAULT_VOORNAAM);
         return persoon;
     }
+    /**
+     * Create an updated entity for this test.
+     *
+     * This is a static method, as tests for other entities might also need it,
+     * if they test an entity which requires the current entity.
+     */
+    public static Persoon createUpdatedEntity(EntityManager em) {
+        Persoon persoon = new Persoon()
+            .naam(UPDATED_NAAM)
+            .voornaam(UPDATED_VOORNAAM);
+        return persoon;
+    }
 
     @BeforeEach
     public void initTest() {
@@ -170,8 +182,8 @@ public class PersoonResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(persoon.getId().intValue())))
-            .andExpect(jsonPath("$.[*].naam").value(hasItem(DEFAULT_NAAM.toString())))
-            .andExpect(jsonPath("$.[*].voornaam").value(hasItem(DEFAULT_VOORNAAM.toString())));
+            .andExpect(jsonPath("$.[*].naam").value(hasItem(DEFAULT_NAAM)))
+            .andExpect(jsonPath("$.[*].voornaam").value(hasItem(DEFAULT_VOORNAAM)));
     }
     
     @Test
@@ -185,8 +197,8 @@ public class PersoonResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(persoon.getId().intValue()))
-            .andExpect(jsonPath("$.naam").value(DEFAULT_NAAM.toString()))
-            .andExpect(jsonPath("$.voornaam").value(DEFAULT_VOORNAAM.toString()));
+            .andExpect(jsonPath("$.naam").value(DEFAULT_NAAM))
+            .andExpect(jsonPath("$.voornaam").value(DEFAULT_VOORNAAM));
     }
 
     @Test
@@ -265,7 +277,7 @@ public class PersoonResourceIT {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isNoContent());
 
-        // Validate the database is empty
+        // Validate the database contains one less item
         List<Persoon> persoonList = persoonRepository.findAll();
         assertThat(persoonList).hasSize(databaseSizeBeforeDelete - 1);
 
@@ -287,43 +299,5 @@ public class PersoonResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(persoon.getId().intValue())))
             .andExpect(jsonPath("$.[*].naam").value(hasItem(DEFAULT_NAAM)))
             .andExpect(jsonPath("$.[*].voornaam").value(hasItem(DEFAULT_VOORNAAM)));
-    }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(Persoon.class);
-        Persoon persoon1 = new Persoon();
-        persoon1.setId(1L);
-        Persoon persoon2 = new Persoon();
-        persoon2.setId(persoon1.getId());
-        assertThat(persoon1).isEqualTo(persoon2);
-        persoon2.setId(2L);
-        assertThat(persoon1).isNotEqualTo(persoon2);
-        persoon1.setId(null);
-        assertThat(persoon1).isNotEqualTo(persoon2);
-    }
-
-    @Test
-    @Transactional
-    public void dtoEqualsVerifier() throws Exception {
-        TestUtil.equalsVerifier(PersoonDTO.class);
-        PersoonDTO persoonDTO1 = new PersoonDTO();
-        persoonDTO1.setId(1L);
-        PersoonDTO persoonDTO2 = new PersoonDTO();
-        assertThat(persoonDTO1).isNotEqualTo(persoonDTO2);
-        persoonDTO2.setId(persoonDTO1.getId());
-        assertThat(persoonDTO1).isEqualTo(persoonDTO2);
-        persoonDTO2.setId(2L);
-        assertThat(persoonDTO1).isNotEqualTo(persoonDTO2);
-        persoonDTO1.setId(null);
-        assertThat(persoonDTO1).isNotEqualTo(persoonDTO2);
-    }
-
-    @Test
-    @Transactional
-    public void testEntityFromId() {
-        assertThat(persoonMapper.fromId(42L).getId()).isEqualTo(42);
-        assertThat(persoonMapper.fromId(null)).isNull();
     }
 }

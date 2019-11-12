@@ -21,7 +21,7 @@ export class BoekMySuffixDeleteDialogComponent {
   }
 
   confirmDelete(id: number) {
-    this.boekService.delete(id).subscribe(response => {
+    this.boekService.delete(id).subscribe(() => {
       this.eventManager.broadcast({
         name: 'boekListModification',
         content: 'Deleted an boek'
@@ -46,11 +46,11 @@ export class BoekMySuffixDeletePopupComponent implements OnInit, OnDestroy {
         this.ngbModalRef = this.modalService.open(BoekMySuffixDeleteDialogComponent as Component, { size: 'lg', backdrop: 'static' });
         this.ngbModalRef.componentInstance.boek = boek;
         this.ngbModalRef.result.then(
-          result => {
+          () => {
             this.router.navigate(['/boek-my-suffix', { outlets: { popup: null } }]);
             this.ngbModalRef = null;
           },
-          reason => {
+          () => {
             this.router.navigate(['/boek-my-suffix', { outlets: { popup: null } }]);
             this.ngbModalRef = null;
           }

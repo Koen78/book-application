@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * A DTO for the {@link io.github.jhipster.application.domain.Persoon} entity.
  */
-@ApiModel(description = "Persoon entity. @author Koen.")
+@ApiModel(description = "Persoon entity.\n@author Koen.")
 public class PersoonDTO implements Serializable {
 
     private Long id;

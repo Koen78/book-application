@@ -25,7 +25,7 @@ export class PersoonMySuffixDeleteDialogComponent {
   }
 
   confirmDelete(id: number) {
-    this.persoonService.delete(id).subscribe(response => {
+    this.persoonService.delete(id).subscribe(() => {
       this.eventManager.broadcast({
         name: 'persoonListModification',
         content: 'Deleted an persoon'
@@ -50,11 +50,11 @@ export class PersoonMySuffixDeletePopupComponent implements OnInit, OnDestroy {
         this.ngbModalRef = this.modalService.open(PersoonMySuffixDeleteDialogComponent as Component, { size: 'lg', backdrop: 'static' });
         this.ngbModalRef.componentInstance.persoon = persoon;
         this.ngbModalRef.result.then(
-          result => {
+          () => {
             this.router.navigate(['/persoon-my-suffix', { outlets: { popup: null } }]);
             this.ngbModalRef = null;
           },
-          reason => {
+          () => {
             this.router.navigate(['/persoon-my-suffix', { outlets: { popup: null } }]);
             this.ngbModalRef = null;
           }

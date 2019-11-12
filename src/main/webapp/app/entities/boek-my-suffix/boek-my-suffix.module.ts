@@ -1,16 +1,12 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { BookApplicationSharedModule } from 'app/shared';
-import {
-  BoekMySuffixComponent,
-  BoekMySuffixDetailComponent,
-  BoekMySuffixUpdateComponent,
-  BoekMySuffixDeletePopupComponent,
-  BoekMySuffixDeleteDialogComponent,
-  boekRoute,
-  boekPopupRoute
-} from './';
+import { BookApplicationSharedModule } from 'app/shared/shared.module';
+import { BoekMySuffixComponent } from './boek-my-suffix.component';
+import { BoekMySuffixDetailComponent } from './boek-my-suffix-detail.component';
+import { BoekMySuffixUpdateComponent } from './boek-my-suffix-update.component';
+import { BoekMySuffixDeletePopupComponent, BoekMySuffixDeleteDialogComponent } from './boek-my-suffix-delete-dialog.component';
+import { boekRoute, boekPopupRoute } from './boek-my-suffix.route';
 
 const ENTITY_STATES = [...boekRoute, ...boekPopupRoute];
 
@@ -23,12 +19,6 @@ const ENTITY_STATES = [...boekRoute, ...boekPopupRoute];
     BoekMySuffixDeleteDialogComponent,
     BoekMySuffixDeletePopupComponent
   ],
-  entryComponents: [
-    BoekMySuffixComponent,
-    BoekMySuffixUpdateComponent,
-    BoekMySuffixDeleteDialogComponent,
-    BoekMySuffixDeletePopupComponent
-  ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  entryComponents: [BoekMySuffixDeleteDialogComponent]
 })
 export class BookApplicationBoekMySuffixModule {}

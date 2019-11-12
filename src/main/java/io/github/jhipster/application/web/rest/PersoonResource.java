@@ -84,6 +84,7 @@ public class PersoonResource {
     /**
      * {@code GET  /persoons} : get all the persoons.
      *
+
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of persoons in body.
      */
     @GetMapping("/persoons")
@@ -130,5 +131,4 @@ public class PersoonResource {
         log.debug("REST request to search Persoons for query {}", query);
         return persoonService.search(query);
     }
-
 }

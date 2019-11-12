@@ -1,6 +1,4 @@
 package io.github.jhipster.application.domain;
-
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -9,11 +7,9 @@ import javax.persistence.*;
 
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
- * Persoon entity.
- * @author Koen.
+ * Persoon entity.\n@author Koen.
  */
 @Entity
 @Table(name = "persoon")
@@ -35,15 +31,15 @@ public class Persoon implements Serializable {
     @Column(name = "voornaam")
     private String voornaam;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties("persoons")
     private Boek wenslijst;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties("persoons")
     private Boek boekenlijst;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties("persoons")
     private Boek gelezen;
 

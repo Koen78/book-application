@@ -1,4 +1,3 @@
-/* tslint:disable no-unused-expression */
 import { browser, ExpectedConditions as ec, promise } from 'protractor';
 import { NavBarPage, SignInPage } from '../../page-objects/jhi-page-objects';
 
@@ -9,8 +8,8 @@ const expect = chai.expect;
 describe('Boek e2e test', () => {
   let navBarPage: NavBarPage;
   let signInPage: SignInPage;
-  let boekUpdatePage: BoekUpdatePage;
   let boekComponentsPage: BoekComponentsPage;
+  let boekUpdatePage: BoekUpdatePage;
   let boekDeleteDialog: BoekDeleteDialog;
 
   before(async () => {

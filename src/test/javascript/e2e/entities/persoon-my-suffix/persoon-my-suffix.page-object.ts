@@ -1,15 +1,15 @@
-import { browser, ExpectedConditions, element, by, ElementFinder } from 'protractor';
+import { element, by, ElementFinder } from 'protractor';
 
 export class PersoonComponentsPage {
   createButton = element(by.id('jh-create-entity'));
   deleteButtons = element.all(by.css('jhi-persoon-my-suffix div table .btn-danger'));
   title = element.all(by.css('jhi-persoon-my-suffix div h2#page-heading span')).first();
 
-  async clickOnCreateButton(timeout?: number) {
+  async clickOnCreateButton() {
     await this.createButton.click();
   }
 
-  async clickOnLastDeleteButton(timeout?: number) {
+  async clickOnLastDeleteButton() {
     await this.deleteButtons.last().click();
   }
 
@@ -52,7 +52,7 @@ export class PersoonUpdatePage {
     return await this.voornaamInput.getAttribute('value');
   }
 
-  async wenslijstSelectLastOption(timeout?: number) {
+  async wenslijstSelectLastOption() {
     await this.wenslijstSelect
       .all(by.tagName('option'))
       .last()
@@ -71,7 +71,7 @@ export class PersoonUpdatePage {
     return await this.wenslijstSelect.element(by.css('option:checked')).getText();
   }
 
-  async boekenlijstSelectLastOption(timeout?: number) {
+  async boekenlijstSelectLastOption() {
     await this.boekenlijstSelect
       .all(by.tagName('option'))
       .last()
@@ -90,7 +90,7 @@ export class PersoonUpdatePage {
     return await this.boekenlijstSelect.element(by.css('option:checked')).getText();
   }
 
-  async gelezenSelectLastOption(timeout?: number) {
+  async gelezenSelectLastOption() {
     await this.gelezenSelect
       .all(by.tagName('option'))
       .last()
@@ -109,11 +109,11 @@ export class PersoonUpdatePage {
     return await this.gelezenSelect.element(by.css('option:checked')).getText();
   }
 
-  async save(timeout?: number) {
+  async save() {
     await this.saveButton.click();
   }
 
-  async cancel(timeout?: number) {
+  async cancel() {
     await this.cancelButton.click();
   }
 
@@ -130,7 +130,7 @@ export class PersoonDeleteDialog {
     return this.dialogTitle.getText();
   }
 
-  async clickOnConfirmButton(timeout?: number) {
+  async clickOnConfirmButton() {
     await this.confirmButton.click();
   }
 }

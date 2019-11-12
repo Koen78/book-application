@@ -1,0 +1,33 @@
+/**
+* Persoon entity.
+ * @author Koen.
+ */
+ entity Persoon {
+ 	naam String,
+    voornaam String
+ }
+/**
+* Boek entity.
+ * @author Koen.
+ */ 
+ entity Boek {
+ 	titel String,
+    auteur  String, 
+    paginas Integer,
+    korteInhoud String
+ }
+
+relationship ManyToOne {
+    Persoon{wenslijst} to Boek,
+    Persoon{boekenlijst} to Boek,
+    Person{gelezen} to Boek
+}
+// Set pagination options
+paginate Boek with pagination
+
+dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl 
+// Set an angular suffix
+angularSuffix * with mySuffix

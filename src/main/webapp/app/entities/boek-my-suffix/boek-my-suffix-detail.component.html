@@ -1,0 +1,39 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="boek">
+            <h2><span>Boek</span> {{boek.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Titel</span></dt>
+                <dd>
+                    <span>{{boek.titel}}</span>
+                </dd>
+                <dt><span>Auteur</span></dt>
+                <dd>
+                    <span>{{boek.auteur}}</span>
+                </dd>
+                <dt><span>Paginas</span></dt>
+                <dd>
+                    <span>{{boek.paginas}}</span>
+                </dd>
+                <dt><span>Korte Inhoud</span></dt>
+                <dd>
+                    <span>{{boek.korteInhoud}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/boek-my-suffix', boek.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
